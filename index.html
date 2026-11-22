@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Инструментарий методиста: копилка решений</title>
+    <!-- Подключение Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Подключение шрифта Inter и Playfair Display для акцентов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <!-- Иконки Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            200: '#bae0fd',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        gold: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Плавные анимации и кастомные стили для эффекта интерактивного плаката */
+        .poster-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .poster-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+        }
+        .pulse-dot {
+            animation: pulse-ring 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(14, 165, 233, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
+        }
+        /* Скрытие скроллбара для горизонтальных фильтров на мобильных */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-600 selection:text-white">
+
+    <!-- Верхняя навигационная панель -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-700 to-brand-900 text-white flex items-center justify-center shadow-md">
+                        <i data-lucide="compass" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-slate-900 text-sm sm:text-base block leading-tight">Жлобинский РУМК</span>
+                        <span class="text-xs text-slate-500 hidden sm:block">История и обществоведение</span>
+                    </div>
+                </div>
+
+                <!-- Навигация по блокам плаката -->
+                <nav class="hidden md:flex items-center gap-1 bg-slate-100 p-1 rounded-xl">
+                    <a href="#hero" class="px-3 py-1.5 text-sm font-medium rounded-lg text-slate-700 hover:bg-white hover:text-brand-700 hover:shadow-sm transition">Визитка</a>
+                    <a href="#formats" class="px-3 py-1.5 text-sm font-medium rounded-lg text-slate-700 hover:bg-white hover:text-brand-700 hover:shadow-sm transition">Современные форматы</a>
+                    <a href="#analytics" class="px-3 py-1.5 text-sm font-medium rounded-lg text-slate-700 hover:bg-white hover:text-brand-700 hover:shadow-sm transition">Аналитика и признание</a>
+                    <a href="#challenge-pro" class="px-3 py-1.5 text-sm font-medium rounded-lg text-slate-700 hover:bg-white hover:text-brand-700 hover:shadow-sm transition">Методист PRO</a>
+                    <a href="#reflection" class="px-3 py-1.5 text-sm font-medium rounded-lg text-slate-700 hover:bg-white hover:text-brand-700 hover:shadow-sm transition">Обратная связь</a>
+                </nav>
+
+                <a href="#reflection" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium shadow-sm transition">
+                    <i data-lucide="message-square-plus" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Обратная связь</span>
+                    <span class="sm:hidden">Отзыв</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ГЛАВНЫЙ БЛОК: ЗАГОЛОВОК И ВИЗИТКА МЕТОДИСТА -->
+    <section id="hero" class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-brand-900 to-slate-900 text-white pt-10 pb-16 sm:pt-16 sm:pb-24">
+        <!-- Декоративная сетка на фоне -->
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#38bdf8 1px, transparent 1px); background-size: 28px 28px;"></div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                
+                <!-- Левая колонка: Название и описание -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-brand-200 text-xs sm:text-sm font-medium backdrop-blur-sm">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-dot"></span>
+                        Интерактивный методический плакат
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                        Инструментарий методиста: <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-amber-200 to-sky-300">копилка решений</span>
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed">
+                        Система научно-методического сопровождения учителей истории и обществоведения Жлобинского района: от нейросетей и микрообучения до живых краеведческих лабораторий и наставничества.
+                    </p>
+
+                    <!-- Быстрые интерактивные плашки-достижения -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <div class="p-4 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-sm flex items-start gap-3.5">
+                            <div class="p-2.5 rounded-xl bg-amber-500/20 text-amber-300 shrink-0">
+                                <i data-lucide="award" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs uppercase tracking-wider text-amber-300 font-semibold">Международное признание</div>
+                                <div class="text-sm font-medium text-white mt-0.5">Диплом II степени конкурса управленческих практик</div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-sm flex items-start gap-3.5">
+                            <div class="p-2.5 rounded-xl bg-sky-500/20 text-sky-300 shrink-0">
+                                <i data-lucide="sparkles" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs uppercase tracking-wider text-sky-300 font-semibold">Областной уровень</div>
+                                <div class="text-sm font-medium text-white mt-0.5">Опыт Жлобинского РУМК на VI фестивале «Рождественские встречи»</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Правая колонка: Карточка методиста -->
+                <div class="lg:col-span-5">
+                    <div class="bg-white text-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 relative">
+                        <div class="flex flex-col sm:flex-row lg:flex-col items-center text-center gap-5">
+                            <!-- Заглушка под фото методиста (можно заменить src на реальное фото) -->
+                            <div class="relative">
+                                <img src="https://drive.google.com/open?id=1mpbyZsl3zCzwK9Bex4wJr5C1l6r_dV1B&usp=drive_fs" 
+                                     onerror="this.src='https://i.postimg.cc/mg6cDrvK/Erika.jpg'" 
+                                     alt="Комышева Эрика Антониовна" 
+                                     class="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl object-cover shadow-lg border-4 border-brand-50">
+                                <div class="absolute -bottom-2 -right-2 bg-brand-600 text-white p-2 rounded-xl shadow-md" title="Методист УМК">
+                                    <i data-lucide="book-open-check" class="w-5 h-5"></i>
+                                </div>
+                            </div>
+
+                            <div>
+                                <span class="inline-block px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-semibold mb-2">
+                                    Авторизованная методическая система
+                                </span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+                                    Комышева Эрика Антониовна
+                                </h2>
+                                <p class="text-sm text-slate-600 mt-1">
+                                    Методист учебно-методического кабинета Жлобинского района
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-5 border-t border-slate-100 space-y-3 text-sm text-slate-600">
+                            <div class="flex items-center gap-2.5">
+                                <i data-lucide="users" class="w-4 h-4 text-brand-600 shrink-0"></i>
+                                <span>В команде Жлобинского РУМК (зав. Фёдорова Е.Л.)</span>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <i data-lucide="target" class="w-4 h-4 text-brand-600 shrink-0"></i>
+                                <span>Формула: <strong>Компетентный учитель &rarr; компетентный ученик</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- БЛОК 1: СОВРЕМЕННЫЕ ФОРМАТЫ МЕТОДИЧЕСКОЙ РАБОТЫ -->
+    <section id="formats" class="py-14 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+            <div>
+                <span class="text-brand-600 font-bold text-xs uppercase tracking-widest">Блок 01 &bull; Интерактивная карта практик</span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 mt-2">
+                    Современные форматы методической работы
+                </h2>
+                <p class="text-slate-600 mt-2 max-w-2xl text-sm sm:text-base">
+                    Нажмите на любую карточку мероприятия, чтобы открыть фотогалерею, видеоролики, описание технологии и методические выводы.
+                </p>
+            </div>
+
+            <!-- Фильтр по направлениям -->
+            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 md:pb-0" id="filter-buttons">
+                <button data-filter="all" class="filter-btn active px-4 py-2 rounded-xl text-sm font-semibold bg-brand-600 text-white shadow-sm whitespace-nowrap transition">
+                    Все практики (13)
+                </button>
+                <button data-filter="ai" class="filter-btn px-4 py-2 rounded-xl text-sm font-medium bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 whitespace-nowrap transition">
+                    🤖 ИИ и цифра
+                </button>
+                <button data-filter="challenge" class="filter-btn px-4 py-2 rounded-xl text-sm font-medium bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 whitespace-nowrap transition">
+                    ⚡ Челленджи и микрообучение
+                </button>
+                <button data-filter="krai" class="filter-btn px-4 py-2 rounded-xl text-sm font-medium bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 whitespace-nowrap transition">
+                    🧭 Выездные гостиные
+                </button>
+                <button data-filter="skills" class="filter-btn px-4 py-2 rounded-xl text-sm font-medium bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 whitespace-nowrap transition">
+                    🎓 4К и молодые педагоги
+                </button>
+            </div>
+        </div>
+
+        <!-- Сетка карточек мероприятий -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="cards-grid">
+            
+            <!-- Карточка 1: Челлендж ВЫЗОВ ПРИНЯТ (Хит с видео) -->
+            <article data-category="challenge" onclick="openModal('challenge_accept')" class="poster-card cursor-pointer bg-white rounded-2xl border border-slate-200/90 overflow-hidden flex flex-col justify-between group">
+                <div>
+                    <div class="relative h-48 bg-slate-900 overflow-hidden">
+                        <img src="https://i.postimg.cc/65c2kcYW/Masterskaa-za-10-minut2.jpg" alt="Челлендж Вызов принят" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90">
+                        <div class="absolute top-3 left-3 flex gap-2">
+                            <span class="px-2.5 py-1 rounded-lg bg-rose-600 text-white text-xs font-bold flex items-center gap-1 shadow">
+                                <i data-lucide="play-circle" class="w-3.5 h-3.5"></i> Есть видеоролик
+                            </span>
+                        </div>
+                        <div class="absolute bottom-3 right-3 bg-white/95 backdrop-blur px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-800">
+                            Микрообучение
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs font-semibold text-brand-600 uppercase tracking-wider mb-1">Районный челлендж &bull; СШ №7 г. Жлобина</div>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-brand-700 transition">
+                            «ВЫЗОВ ПРИНЯТ»: трансляция эффективного опыта
+                        </h3>
+                        <p class="text-sm text-slate-600 mt-2 line-clamp-3">
+                            Учителя истории под руководством модераторов секций в динамичном формате микрообучения представили рабочие педагогические приемы и наладили творческие связи.
+                        </p>
+                    </div>
+                </div>
+                <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-brand-700">
+                    <span>Смотреть видео и фотоотчет</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+                </div>
+            </article>
+
+            <!-- Карточка 2: Мастерская ИИ (Хит с видео) -->
+            <article data-category="ai" onclick="openModal('ai_workshop')" class="poster-card cursor-pointer bg-white rounded-2xl border border-slate-200/90 overflow-hidden flex flex-col justify-between group">
+                <div>
+                    <div class="relative h-48 bg-indigo-950 overflow-hidden">
+                        <img src="https://placehold.co/600x360/1e1b4b/a5b4fc?text=Мастерская+ИИ:+идеи+и+алгоритмы" alt="Мастерская ИИ" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90">
+                        <div class="absolute top-3 left-3 flex gap-2">
+                            <span class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white text-xs font-bold flex items-center gap-1 shadow">
+                                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> ИИ-видео внутри
+                            </span>
+                        </div>
+                        <div class="absolute bottom-3 right-3 bg-white/95 backdrop-blur px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-800">
+                            Алмазное мышление
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs font-semibold text-indigo-600 uppercase tracking-wider mb-1">Районный практикум &bull; История + Филология</div>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-indigo-700 transition">
+                            «Мастерская ИИ: идеи и алгоритмы. Создаём будущее в настоящем»
+                        </h3>
+                        <p class="text-sm text-slate-600 mt-2 line-clamp-3">
+                            Запуск алмазного мышления, мастер-класс и микрообучение: каждый педагог создал собственный цифровой продукт с помощью нейросетей.
+                        </p>
+                    </div>
+                </div>
+                <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-indigo-700">
+                    <span>Открыть ИИ-фрагмент и детали</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+                </div>
+            </article>
+
+            <!-- Карточка 3: Акция Объятия сквозь года -->
+            <article data-category="ai" onclick="openModal('hugs_years')" class="poster-card cursor-pointer bg-white rounded-2xl border border-slate-200/90 overflow-hidden flex flex-col justify-between group">
+                <div>
+                    <div class="relative h-48 bg-amber-950 overflow-hidden">
+                        <img src="https://placehold.co/600x360/451a03/fcd34d?text=Акция+«Объятия+сквозь+года»" alt="Объятия сквозь года" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90">
+                        <div class="absolute top-3 left-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-amber-600 text-white text-xs font-bold flex items-center gap-1 shadow">
+                                <i data-lucide="heart" class="w-3.5 h-3.5"></i> Память и нейросети
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs font-semibold text-amber-700 uppercase tracking-wider mb-1">Патриотический медиапроект</div>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-amber-700 transition">
+                            Акция «Объятия сквозь года»
+                        </h3>
+                        <p class="text-sm text-slate-600 mt-2 line-clamp-3">
+                            С помощью нейросетей учащиеся, учителя и методисты оживили архивные снимки и создали трогательные видеообъятия со своими бабушками и дедушками — ветеранами ВОВ.
+                        </p>
+                    </div>
+                </div>
+                <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-amber-800">
+                    <span>Посмотреть видеоисторию</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+                </div>
+            </article>
+
+            <!-- Карточка 4: Школа молодого учителя истории -->
+            <article data-category="skills" onclick="openModal('young_teachers')" class="poster-card cursor-pointer bg-white rounded-2xl border border-slate-200/90 overflow-hidden flex flex-col justify-between group">
+                <div>
+                    <div class="relative h-48 bg-emerald-950 overflow-hidden">
+                        <img src="https://i.postimg.cc/rwp0M4Hk/skola-molodogo-ucitela.jpg" alt="Школа молодого учителя" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90">
+                        <div class="absolute top-3 left-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white text-xs font-bold shadow">
+                                Постоянно действующая школа
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs font-semibold text-emerald-700 uppercase tracking-wider mb-1">Наставничество и адаптация</div>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-emerald-700 transition">
+                            «Школа молодого учителя истории»
+                        </h3>
+                        <p class="text-sm text-slate-600 mt-2 line-clamp-3">
+                            Практикумы по разноуровневым заданиям с исторической картой, анализ банка заданий контрольно-оценочной деятельности и освоение гексагонального обучения.
+                        </p>
+                    </div>
+                </div>
+                <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-emerald-700">
+                    <span>Инструменты и фото занятий</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+                </div>
+            </article>
+
+            <!-- Карточка 5: Педагогическая гостиная в Стрешинской СШ -->
+            <article data-category="krai" onclick="openModal('streshin')" class="poster-card cursor-pointer bg-white rounded-2xl border border-slate-200/90 overflow-hidden flex flex-col justify-between group">
+                <div>
+                    <div class="relative h-48 bg-teal-950 overflow-hidden">
+                        <img src="https://i.postimg.cc/MK5MC5dX/pedagogiceskoj-gostinoj-Stresin2.jpg" alt="Стрешинская СШ" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90">
+                        <div class="absolute top-3 left-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-rose-600 text-white text-xs font-bold flex items-center gap-1 shadow">
+                                <i data-lucide="video" class="w-3.5 h-3.5"></i> Видео + маршрут
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs font-semibold text-teal-700 uppercase tracking-wider mb-1">Выездная лаборатория &bull; Стрешинская СШ</div>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-teal-700 transition">
+                            Педагогическая гостиная: от ИИ до Стрешинского городища
+                        </h3>
+                        <p class="text-sm text-slate-600 mt-2 line-clamp-3">
+                            Синтез технологий и краеведения: мастерская ИИ, открытые уроки, школьный музей «Спадчына», экологическая тропа, городище и храм Покрова Пресвятой Богородицы.
+                        </p>
+                    </div>
+                </div>
+                <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-teal-700">
+                    <span>Открыть маршрут и видео</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+                </div>
+            </article>
+
+            <!-- Карточка 6: Челлендж Мастерская за 10 минут + Областной семинар -->
+            <article data-category="challenge" onclick="openModal('workshop_10min')" class="poster-card cursor-pointer bg-white rounded-2xl border border-slate-200/90 overflow-hidden flex flex-col justify-between group">
+                <div>
+                    <div class="relative h-48 bg-sky-950 overflow-hidden">
+                        <img src="https://i.postimg.cc/65c2kcYW/Masterskaa-za-10-minut2.jpg" alt="Мастерская за 10 минут" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90">
+                        <div class="absolute top-3 left-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-sky-600 text-white text-xs font-bold shadow">
+                                Выход на область
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs font-semibold text-sky-700 uppercase tracking-wider mb-1">Районный челлендж &rarr; Областной семинар</div>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-sky-700 transition">
+                            «Мастерская за 10 минут: эффективные практики во внеурочной деятельности»
+                        </h3>
+                        <p class="text-sm text-slate-600 mt-2 line-clamp-3">
+                            Микрообучение на базе СШ №7. Лучшие практики победителей челленджа представлены в панораме опыта на областном семинаре по индивидуальной траектории развития педагога.
+                        </p>
+                    </div>
+                </div>
+                <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-sky-700">
+                    <span>Подробнее о результатах</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+                </div>
+            </article>
+
+            <!-- Карточка 7: Педагогическое путешествие Шалость удалась: 4К -->
+            <article data-category="skills" onclick="openModal('travel_4k')" class="poster-card cursor-pointer bg-white rounded-2xl border border-slate-200/90 overflow-hidden flex flex-col justify-between group">
+                <div>
+                    <div class="relative h-48 bg-purple-950 overflow-hidden">
+                        <img src="https://i.postimg.cc/cLJg03bP/Salost'-udalas'2.jpg" alt="Шалость удалась 4К" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90">
+                        <div class="absolute top-3 left-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-purple-600 text-white text-xs font-bold shadow">
+                                27 марта 2024
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs font-semibold text-purple-700 uppercase tracking-wider mb-1">Школа передового педагогического опыта</div>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-purple-700 transition">
+                            Педагогическое путешествие «Шалость удалась: 4К»
+                        </h3>
+                        <p class="text-sm text-slate-600 mt-2 line-clamp-3">
+                            Интенсив по компетенциям XXI века (коммуникация, кооперация, креативность, критическое мышление) для учителей истории, обществоведения и искусства (ОМХК).
+                        </p>
+                    </div>
+                </div>
+                <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-purple-700">
+                    <span>Открыть кейс 4К-навыков</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+                </div>
+            </article>
+
+            <!-- Карточка 8: Педагогическая гостиная в Папоротнянской СШ -->
+            <article data-category="krai" onclick="openModal('paporotnoe')" class="poster-card cursor-pointer bg-white rounded-2xl border border-slate-200/90 overflow-hidden flex flex-col justify-between group">
+                <div>
+                    <div class="relative h-48 bg-lime-950 overflow-hidden">
+                        <img src="https://i.postimg.cc/fTCtGCBt/Professional'naa-kompetentnost'-ucitelej-istorii.jpg" alt="Папоротнянская СШ" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90">
+                        <div class="absolute top-3 left-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-lime-700 text-white text-xs font-bold shadow">
+                                16 ноября 2023
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs font-semibold text-lime-700 uppercase tracking-wider mb-1">История + География &bull; Папоротнянская СШ</div>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-lime-700 transition">
+                            Гостиная «Воспитание личности средствами истории и географии»
+                        </h3>
+                        <p class="text-sm text-slate-600 mt-2 line-clamp-3">
+                            Экологическое кафе, паштоўка «Сёння ў нашай хаце свята», поваренная книга «По-папоротнянски» и краеведческая экскурсия «Грабские хутора».
+                        </p>
+                    </div>
+                </div>
+                <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-lime-700">
+                    <span>Смотреть программу гостиной</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+                </div>
+            </article>
+
+            <!-- Карточка 9: Тренинг в СШ №11 (Функциональная = визуальная грамотность) -->
+            <article data-category="skills" onclick="openModal('visual_literacy')" class="poster-card cursor-pointer bg-white rounded-2xl border border-slate-200/90 overflow-hidden flex flex-col justify-between group">
+                <div>
+                    <div class="relative h-48 bg-cyan-950 overflow-hidden">
+                        <img src="https://i.postimg.cc/DwzJnGMP/Funkcional'naa-gramotnost'-ucasihsa-vizual'naa-gramotnost'-ucasihsa3.jpg" alt="Тренинг СШ 11" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90">
+                        <div class="absolute top-3 left-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-cyan-600 text-white text-xs font-bold shadow">
+                                29 октября 2024
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs font-semibold text-cyan-700 uppercase tracking-wider mb-1">Практический тренинг &bull; СШ №11 г. Жлобина</div>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-cyan-700 transition">
+                            «Функциональная грамотность учащихся = визуальная грамотность?!»
+                        </h3>
+                        <p class="text-sm text-slate-600 mt-2 line-clamp-3">
+                            Обмен опытом по работе с исторической картой, визуальными источниками, дидактическими играми и наглядными средствами обучения на уроках истории.
+                        </p>
+                    </div>
+                </div>
+                <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-cyan-700">
+                    <span>Открыть методические приемы</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+                </div>
+            </article>
+
+            <!-- Карточка 10: Встреча на Мемориальном комплексе «Красный Берег» -->
+            <article data-category="krai" onclick="openModal('krasny_bereg')" class="poster-card cursor-pointer bg-white rounded-2xl border border-slate-200/90 overflow-hidden flex flex-col justify-between group">
+                <div>
+                    <div class="relative h-48 bg-stone-900 overflow-hidden">
+                        <img src="https://i.postimg.cc/hPszksps/UROKOV-MUZESTVA.jpg" alt="Красный Берег" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90">
+                        <div class="absolute top-3 left-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-red-700 text-white text-xs font-bold shadow">
+                                27 августа 2026
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs font-semibold text-red-700 uppercase tracking-wider mb-1">Областная встреча &bull; Уроки мужества</div>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-red-700 transition">
+                            Методика проведения Уроков мужества в Красном Береге
+                        </h3>
+                        <p class="text-sm text-slate-600 mt-2 line-clamp-3">
+                            Встреча педагогических работников учреждений общего среднего и среднего специального образования Гомельской области на Мемориальном комплексе «Детям — жертвам войны».
+                        </p>
+                    </div>
+                </div>
+                <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-red-700">
+                    <span>Подробнее о встрече</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+                </div>
+            </article>
+
+            <!-- Карточка 11: Печа-куча «Чалавек і свет. Мая Радзіма – Беларусь» -->
+            <article data-category="challenge" onclick="openModal('pecha_kucha')" class="poster-card cursor-pointer bg-white rounded-2xl border border-slate-200/90 overflow-hidden flex flex-col justify-between group">
+                <div>
+                    <div class="relative h-48 bg-orange-950 overflow-hidden">
+                        <img src="https://i.postimg.cc/wjBygNGF/Calavek-i-svet.jpg" alt="Печа-куча" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90">
+                        <div class="absolute top-3 left-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-orange-600 text-white text-xs font-bold shadow">
+                                20 слайдов &times; 20 сек
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs font-semibold text-orange-700 uppercase tracking-wider mb-1">Педагогическая встреча</div>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-orange-700 transition">
+                            «Формирование функциональной грамотности на уроках "Мая Радзіма – Беларусь"»
+                        </h3>
+                        <p class="text-sm text-slate-600 mt-2 line-clamp-3">
+                            Взгляд учителя истории на пропедевтический курс IV класса через динамичный формат презентаций «Печа-куча».
+                        </p>
+                    </div>
+                </div>
+                <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-orange-700">
+                    <span>Открыть детали формата</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+                </div>
+            </article>
+
+            <!-- Карточка 12: Международный форум и Областной семинар по ОМХК -->
+            <article data-category="ai" onclick="openModal('forums_omhk')" class="poster-card cursor-pointer bg-white rounded-2xl border border-slate-200/90 overflow-hidden flex flex-col justify-between group">
+                <div>
+                    <div class="relative h-48 bg-blue-950 overflow-hidden">
+                        <img src="https://i.postimg.cc/yYs3pthM/INDIVIDUAL'%CC%B1NAA-TRAEKTORIA-PROFESSIONAL'%CC%B1NOGO-RAZVITIA-PEDAGOG.jpg" alt="Форумы" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90">
+                        <div class="absolute top-3 left-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-xs font-bold shadow">
+                                Международный опыт
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs font-semibold text-blue-700 uppercase tracking-wider mb-1">Форумы и межпредметность</div>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-700 transition">
+                            Форум «Инновации в образовании» & Областной семинар по искусству (ОМХК)
+                        </h3>
+                        <p class="text-sm text-slate-600 mt-2 line-clamp-3">
+                            ИИ как культурное орудие педагога, интерактивное оборудование, работа с родителями и погружение в нейросети на уроках искусства, музыки и ИЗО.
+                        </p>
+                    </div>
+                </div>
+                <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-blue-700">
+                    <span>Посмотреть ключевые тезисы</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+                </div>
+            </article>
+
+            <!-- Карточка 13: Областной методсовет (Наставничество и профильные классы) -->
+            <article data-category="skills" onclick="openModal('method_council')" class="poster-card cursor-pointer bg-white rounded-2xl border border-slate-200/90 overflow-hidden flex flex-col justify-between group">
+                <div>
+                    <div class="relative h-48 bg-slate-800 overflow-hidden">
+                        <img src="https://i.postimg.cc/BQ4P7k5y/zasedanie-oblastnogo-metodiceskogo-soveta2.jpg" alt="Методсовет" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90">
+                        <div class="absolute top-3 left-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-slate-700 text-white text-xs font-bold shadow">
+                                Областной методсовет
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Региональная модель сопровождения</div>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-brand-700 transition">
+                            Модель «Наставник + молодой специалист = команда»
+                        </h3>
+                        <p class="text-sm text-slate-600 mt-2 line-clamp-3">
+                            Развитие профильных классов педагогической направленности, создание «ситуации успеха», психологическая и профессиональная адаптация молодых коллег.
+                        </p>
+                    </div>
+                </div>
+                <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-slate-700">
+                    <span>Открыть модель работы</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- БЛОК 2: АНАЛИТИКА, МОНИТОРИНГ КАЧЕСТВА И БАНК БЛАГОДАРНОСТЕЙ -->
+    <section id="analytics" class="py-14 sm:py-20 bg-white border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mb-12">
+                <span class="text-brand-600 font-bold text-xs uppercase tracking-widest">Блок 02 &bull; Управляемое качество</span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 mt-2">
+                    Аналитика, мониторинг и профессиональное признание
+                </h2>
+                <p class="text-slate-600 mt-2 text-sm sm:text-base">
+                    Методическая работа строится на диагностике образовательных дефицитов, сопровождении аттестации и живой оценке педагогов района.
+                </p>
+            </div>
+
+            <!-- Инфографика показателей -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12">
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80">
+                    <div class="w-10 h-10 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center mb-3">
+                        <i data-lucide="layers" class="w-5 h-5"></i>
+                    </div>
+                    <div class="text-3xl sm:text-4xl font-extrabold text-slate-900">13+</div>
+                    <div class="text-xs sm:text-sm text-slate-600 mt-1 font-medium">Ключевых интерактивных площадок и челленджей</div>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-3">
+                        <i data-lucide="trending-up" class="w-5 h-5"></i>
+                    </div>
+                    <div class="text-3xl sm:text-4xl font-extrabold text-slate-900">100%</div>
+                    <div class="text-xs sm:text-sm text-slate-600 mt-1 font-medium">Охват молодых специалистов системой наставничества</div>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center mb-3">
+                        <i data-lucide="cpu" class="w-5 h-5"></i>
+                    </div>
+                    <div class="text-3xl sm:text-4xl font-extrabold text-slate-900">ИИ + 4К</div>
+                    <div class="text-xs sm:text-sm text-slate-600 mt-1 font-medium">Сквозные тренды в программе повышения мастерства</div>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-amber-50/70 border border-amber-200/80">
+                    <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center mb-3">
+                        <i data-lucide="trophy" class="w-5 h-5"></i>
+                    </div>
+                    <div class="text-3xl sm:text-4xl font-extrabold text-amber-900">II место</div>
+                    <div class="text-xs sm:text-sm text-amber-800 mt-1 font-medium">Международный конкурс управленческих практик</div>
+                </div>
+            </div>
+
+            <!-- 3 направления мониторинга -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-14">
+                <div class="p-6 rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="p-2 rounded-lg bg-brand-600 text-white"><i data-lucide="bar-chart-3" class="w-5 h-5"></i></span>
+                        <h3 class="font-bold text-lg text-slate-900">Банк заданий и диагностика</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Системный анализ результатов контрольно-оценочной деятельности учащихся, отработка западающих тем по истории Беларуси и всемирной истории, формирование банка разноуровневых заданий.
+                    </p>
+                </div>
+
+                <div class="p-6 rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="p-2 rounded-lg bg-emerald-600 text-white"><i data-lucide="compass" class="w-5 h-5"></i></span>
+                        <h3 class="font-bold text-lg text-slate-900">Аттестация и траектории</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Индивидуальное сопровождение педагогов при подготовке к аттестации (опыт представлен на VI областном фестивале «Рождественские встречи») и выстраивание персональных траекторий роста.
+                    </p>
+                </div>
+
+                <div class="p-6 rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="p-2 rounded-lg bg-indigo-600 text-white"><i data-lucide="calendar-check-2" class="w-5 h-5"></i></span>
+                        <h3 class="font-bold text-lg text-slate-900">Старт 2026/2027 уч. года</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Проведение инструктивно-методических совещаний руководящих работников и специалистов района: нормативное обновление, планирование Уроков мужества и запуск качественного образовательного процесса.
+                    </p>
+                </div>
+            </div>
+
+            <!-- БАНК БЛАГОДАРНОСТЕЙ И ПРИЗНАНИЯ (То, что вы предложили!) -->
+            <div class="bg-slate-900 rounded-3xl p-6 sm:p-10 text-white">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                    <div>
+                        <span class="inline-flex items-center gap-1.5 text-amber-300 text-xs font-bold uppercase tracking-wider">
+                            <i data-lucide="heart-handshake" class="w-4 h-4"></i> Живой результат работы
+                        </span>
+                        <h3 class="text-xl sm:text-3xl font-bold mt-1">
+                            Банк благодарностей, дипломов и откликов учителей
+                        </h3>
+                        <p class="text-slate-300 text-sm mt-1">
+                            Сюда можно вставить скриншоты благодарностей из мессенджеров от учителей района, грамоты и дипломы (нажмите на карточку, чтобы увеличить).
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <!-- Слот 1: Диплом 2 степени -->
+                    <div onclick="openImagePreview('Диплом II степени Международного конкурса управленческих практик', 'https://placehold.co/800x600/fef3c7/92400e?text=Диплом+II+степени+Международного+конкурса')" class="cursor-pointer group bg-white/10 hover:bg-white/15 border border-white/15 rounded-2xl p-3 transition">
+                        <div class="aspect-[4/3] rounded-xl overflow-hidden bg-slate-800 mb-3">
+                            <img src="https://placehold.co/400x300/fef3c7/92400e?text=Диплом+II+степени" alt="Диплом" class="w-full h-full object-cover group-hover:scale-105 transition">
+                        </div>
+                        <div class="text-sm font-semibold text-white">Диплом II степени</div>
+                        <div class="text-xs text-slate-300 mt-0.5">Международный конкурс управленческих практик</div>
+                    </div>
+
+                    <!-- Слот 2: Благодарность от учителей -->
+                    <div onclick="openImagePreview('Отзыв участников челленджа «ВЫЗОВ ПРИНЯТ»', 'https://placehold.co/800x600/e0f2fe/075985?text=Скриншот+благодарности+учителей+истории')" class="cursor-pointer group bg-white/10 hover:bg-white/15 border border-white/15 rounded-2xl p-3 transition">
+                        <div class="aspect-[4/3] rounded-xl overflow-hidden bg-slate-800 mb-3">
+                            <img src="https://placehold.co/400x300/e0f2fe/075985?text=Отзыв+учителей+(Челлендж)" alt="Благодарность 1" class="w-full h-full object-cover group-hover:scale-105 transition">
+                        </div>
+                        <div class="text-sm font-semibold text-white">Слова благодарности коллег</div>
+                        <div class="text-xs text-slate-300 mt-0.5">После районного челленджа в СШ №7</div>
+                    </div>
+
+                    <!-- Слот 3: Благодарность молодых специалистов -->
+                    <div onclick="openImagePreview('Отклик слушателей «Школы молодого учителя истории»', 'https://placehold.co/800x600/dcfce7/166534?text=Благодарность+от+молодых+педагогов')" class="cursor-pointer group bg-white/10 hover:bg-white/15 border border-white/15 rounded-2xl p-3 transition">
+                        <div class="aspect-[4/3] rounded-xl overflow-hidden bg-slate-800 mb-3">
+                            <img src="https://placehold.co/400x300/dcfce7/166534?text=Отклик+молодых+учителей" alt="Благодарность 2" class="w-full h-full object-cover group-hover:scale-105 transition">
+                        </div>
+                        <div class="text-sm font-semibold text-white">Отклик молодых педагогов</div>
+                        <div class="text-xs text-slate-300 mt-0.5">За поддержку и практические кейсы по картам</div>
+                    </div>
+
+                    <!-- Слот 4: Благодарность за Мастерскую ИИ -->
+                    <div onclick="openImagePreview('Отзывы участников «Мастерской ИИ»', 'https://placehold.co/800x600/ede9fe/5b21b6?text=Скриншот+отзывов+Мастерской+ИИ')" class="cursor-pointer group bg-white/10 hover:bg-white/15 border border-white/15 rounded-2xl p-3 transition">
+                        <div class="aspect-[4/3] rounded-xl overflow-hidden bg-slate-800 mb-3">
+                            <img src="https://placehold.co/400x300/ede9fe/5b21b6?text=Отзывы+Мастерской+ИИ" alt="Благодарность 3" class="w-full h-full object-cover group-hover:scale-105 transition">
+                        </div>
+                        <div class="text-sm font-semibold text-white">Впечатления о «Мастерской ИИ»</div>
+                        <div class="text-xs text-slate-300 mt-0.5">От учителей истории и филологов района</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- БЛОК 3: ИНТЕРАКТИВНЫЙ ВЫЗОВ «МЕТОДИСТ PRO» -->
+    <section id="challenge-pro" class="py-14 sm:py-20 bg-[#081b29] text-white border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Шапка блока в стиле референса -->
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-8">
+                <div>
+                    <span class="text-teal-400 font-bold text-xs uppercase tracking-widest">Блок 03 &bull; Интерактивный вызов</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mt-1.5">
+                        МЕТОДИСТ PRO
+                    </h2>
+                </div>
+                <p class="text-slate-300 text-sm sm:text-base max-w-xl leading-relaxed">
+                    Пять ситуаций из методической практики. Выберите решение, получите обратную связь и сравните аргументы.
+                </p>
+            </div>
+
+            <!-- Двухколоночный интерфейс тренажера -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                
+                <!-- Левая карточка: Правила и аргументация -->
+                <div class="lg:col-span-4 bg-[#0f293d] border border-slate-700/70 rounded-2xl p-6 sm:p-8 flex flex-col justify-between shadow-xl">
+                    <div>
+                        <div class="w-10 h-10 flex items-center justify-center text-amber-400 mb-5">
+                            <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2L14.8 9.2L22 12L14.8 14.8L12 22L9.2 14.8L2 12L9.2 9.2L12 2Z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">
+                            Не угадывай — аргументируй
+                        </h3>
+                        <p class="text-sm text-slate-300 leading-relaxed mb-4">
+                            За каждый ответ начисляется <strong class="text-amber-300">0–2 балла</strong>. Максимум — <strong class="text-white">10 баллов</strong>.
+                        </p>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Тренажер автономный, работает прямо на странице. Кейсы основаны на реальных задачах РУМК по истории и обществоведению.
+                        </p>
+                    </div>
+
+                    <!-- Динамический блок разбора аргумента после ответа -->
+                    <div id="pro-feedback-box" class="mt-6 pt-5 border-t border-slate-700/80 hidden">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span id="pro-points-badge" class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300">
+                                +2 балла
+                            </span>
+                            <span class="text-xs text-slate-400">Позиция методиста</span>
+                        </div>
+                        <p id="pro-argument-text" class="text-sm text-slate-200 leading-relaxed">
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Правая карточка: Ситуация, варианты и прогресс -->
+                <div class="lg:col-span-8 bg-[#0f293d] border border-slate-700/70 rounded-2xl p-6 sm:p-8 flex flex-col justify-between shadow-xl">
+                    
+                    <!-- Экран прохождения вопросов -->
+                    <div id="pro-quiz-screen">
+                        <!-- Прогресс-бар -->
+                        <div class="mb-6">
+                            <div class="w-full h-1.5 bg-slate-700/80 rounded-full overflow-hidden mb-2.5">
+                                <div id="pro-progress-bar" class="h-full bg-teal-400 transition-all duration-300" style="width: 20%;"></div>
+                            </div>
+                            <div class="flex items-center justify-between text-xs font-bold tracking-wider uppercase text-amber-400">
+                                <span id="pro-step-label">СИТУАЦИЯ 1 ИЗ 5</span>
+                                <span class="text-slate-400 font-normal normal-case">Выберите один вариант</span>
+                            </div>
+                        </div>
+
+                        <!-- Текст ситуации -->
+                        <h3 id="pro-question-text" class="text-lg sm:text-2xl font-semibold text-white leading-snug mb-6">
+                            Учителя затрудняются разрабатывать разноуровневые задания с исторической картой. Какой шаг даст наиболее устойчивый результат?
+                        </h3>
+
+                        <!-- Варианты ответов A, B, C, D -->
+                        <div id="pro-options-list" class="space-y-3 mb-8">
+                        </div>
+
+                        <!-- Нижняя панель: счетчик баллов и кнопка Далее -->
+                        <div class="pt-4 border-t border-slate-700/70 flex items-center justify-between">
+                            <div class="text-sm font-medium text-slate-300">
+                                Баллы: <span id="pro-score-display" class="text-white font-bold">0</span> / 10
+                            </div>
+                            <button id="pro-next-btn" onclick="nextProQuestion()" disabled
+                                    class="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-bold text-sm transition flex items-center gap-2 shadow-md">
+                                <span>Далее</span>
+                                <span>&rarr;</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Финальный экран с результатами -->
+                    <div id="pro-result-screen" class="hidden py-6 text-center space-y-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-amber-400/20 text-amber-300 mx-auto">
+                            <i data-lucide="award" class="w-9 h-9"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs uppercase tracking-widest text-teal-400 font-bold mb-1">Итог методического вызова</div>
+                            <h3 class="text-2xl sm:text-3xl font-extrabold text-white">
+                                Ваш результат: <span id="pro-final-score" class="text-amber-400">0</span> из 10 баллов
+                            </h3>
+                            <p id="pro-final-verdict" class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto mt-3 leading-relaxed">
+                            </p>
+                        </div>
+                        <div class="pt-2">
+                            <button onclick="restartProQuiz()" class="px-6 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-sm transition inline-flex items-center gap-2 shadow-lg">
+                                <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                                <span>Пройти вызов заново</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- БЛОК 4: РЕФЛЕКСИЯ И ОБРАТНАЯ СВЯЗЬ -->
+    <section id="reflection" class="py-14 sm:py-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-10">
+            <span class="text-brand-600 font-bold text-xs uppercase tracking-widest">Блок 04 &bull; Диалог с педагогами</span>
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 mt-2">
+                Рефлексия и обратная связь
+            </h2>
+            <p class="text-slate-600 mt-2 text-sm sm:text-base">
+                Поделитесь впечатлениями после прохождения тренажера «Методист PRO» или предложите тему для следующей встречи.
+            </p>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+            <div class="flex items-center gap-2.5 text-emerald-700 font-bold text-sm mb-2">
+                <i data-lucide="send" class="w-5 h-5"></i>
+                <span>Банк идей и пожеланий</span>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-2">
+                Оставить отклик или заявку на участие
+            </h3>
+            <p class="text-sm text-slate-500 mb-6">
+                Напишите, какой формат вам понравился или в каком челлендже вы готовы выступить спикером.
+            </p>
+
+            <form id="feedback-form" onsubmit="submitFeedback(event)" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Ваше имя и учреждение</label>
+                        <input type="text" id="fb-name" required placeholder="Например: Иванова А.В., СШ №7" 
+                               class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Направление</label>
+                        <select id="fb-topic" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <option value="Благодарность за мероприятие">Слова благодарности</option>
+                            <option value="Хочу в Мастерскую ИИ">Запрос на практикум по ИИ</option>
+                            <option value="Готов(а) выступить в челлендже">Хочу выступить в челлендже</option>
+                            <option value="Предложение новой темы">Предложить тему встречи</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Ваше сообщение</label>
+                    <textarea id="fb-message" rows="3" required placeholder="Поделитесь впечатлениями о мероприятиях РУМК или идеей для следующей встречи..." 
+                              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"></textarea>
+                </div>
+
+                <button type="submit" class="w-full sm:w-auto py-3 px-6 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm shadow-md transition flex items-center justify-center gap-2">
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                    <span>Отправить отзыв методисту</span>
+                </button>
+            </form>
+
+            <!-- Лента последних живых откликов -->
+            <div class="mt-8 pt-6 border-t border-slate-100">
+                <div class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Последние отклики коллег</div>
+                <div id="feedback-list" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="p-3.5 rounded-xl bg-slate-50 text-xs border border-slate-100">
+                        <div class="flex justify-between font-semibold text-slate-800 mb-1">
+                            <span>Учитель истории, СШ №7 г. Жлобина</span>
+                            <span class="text-brand-600">Челлендж</span>
+                        </div>
+                        <p class="text-slate-600">Формат микрообучения за 10 минут — супер! Никакой воды, сразу три приема забрала на завтрашний урок.</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-slate-50 text-xs border border-slate-100">
+                        <div class="flex justify-between font-semibold text-slate-800 mb-1">
+                            <span>Молодой специалист, район</span>
+                            <span class="text-emerald-600">Школа молодого учителя</span>
+                        </div>
+                        <p class="text-slate-600">Спасибо Эрике Антоновне за практикум по гексагональному обучению и работе с исторической картой!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ПОДВАЛ -->
+    <footer class="bg-slate-900 text-slate-400 py-10 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
+            <div>
+                <span class="text-white font-semibold">«Инструментарий методиста: копилка решений»</span> &bull; Жлобинский РУМК
+            </div>
+            <div>
+                Методист: <span class="text-slate-200">Комышева Эрика Антониовна</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- МОДАЛЬНОЕ ОКНО ДЛЯ ПРОСМОТРА МЕРОПРИЯТИЙ, ВИДЕО И ФОТО -->
+    <div id="modal-backdrop" onclick="closeModalOnBackdrop(event)" class="fixed inset-0 z-50 hidden bg-slate-900/75 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl border border-slate-200 my-8 transform transition-all">
+            <!-- Шапка модального окна -->
+            <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between gap-4">
+                <span id="modal-badge" class="px-3 py-1 rounded-full bg-brand-100 text-brand-800 text-xs font-bold">Мероприятие</span>
+                <button onclick="closeModal()" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-200/70 transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Контент модального окна -->
+            <div class="p-6 sm:p-8 max-h-[80vh] overflow-y-auto space-y-6">
+                <div>
+                    <h3 id="modal-title" class="text-2xl sm:text-3xl font-extrabold text-slate-900">Заголовок</h3>
+                    <p id="modal-subtitle" class="text-sm text-slate-500 mt-1">Подзаголовок</p>
+                </div>
+
+                <!-- Блок видео (показывается, если у мероприятия есть видео) -->
+                <div id="modal-video-box" class="hidden rounded-2xl overflow-hidden bg-slate-900 border border-slate-200">
+                    <div class="aspect-video flex flex-col items-center justify-center text-white p-6 text-center bg-gradient-to-br from-slate-800 to-slate-950">
+                        <div class="w-16 h-16 rounded-full bg-brand-600/90 flex items-center justify-center mb-3 shadow-lg">
+                            <i data-lucide="play" class="w-8 h-8 fill-white"></i>
+                        </div>
+                        <p id="modal-video-label" class="font-semibold text-base">Видеофрагмент мероприятия</p>
+                        <p class="text-xs text-slate-400 mt-1 max-w-md">
+                            В коде файла в это место вставляется ссылка на ваше видео с Google Диска или YouTube (&lt;iframe src="..."&gt;)
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Описание и буллиты -->
+                <div id="modal-body" class="text-slate-700 text-sm sm:text-base leading-relaxed space-y-3">
+                </div>
+
+                <!-- Галерея фотографий мероприятия -->
+                <div>
+                    <div class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Фотоматериалы площадки</div>
+                    <div id="modal-gallery" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Уведомление (вместо alert) -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-xl border border-slate-700 flex items-center gap-3 text-sm font-medium">
+        <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>
+        <span id="toast-text">Спасибо! Ваш отклик добавлен.</span>
+    </div>
+
+    <script>
+        // Инициализация иконок Lucide
+        lucide.createIcons();
+
+        // База данных всех мероприятий для модальных окон
+        const eventsData = {
+            challenge_accept: {
+                badge: 'Хит • Районный челлендж',
+                title: 'Районный челлендж «ВЫЗОВ ПРИНЯТ» для учителей истории',
+                subtitle: 'База проведения: ГУО «Средняя школа №7 г. Жлобина»',
+                hasVideo: true,
+                videoLabel: 'Видеоролик районного челленджа «ВЫЗОВ ПРИНЯТ» (СШ №7)',
+                body: `
+                    <p>Динамичный формат профессионального взаимодействия, объединивший учителей истории Жлобинского района в режиме <strong>микрообучения</strong> под руководством модераторов секций.</p>
+                    <ul class="list-disc pl-5 space-y-1.5 text-slate-700">
+                        <li><strong>Распространение эффективного педагогического опыта:</strong> каждый спикер за короткое время продемонстрировал конкретный рабочий прием урока.</li>
+                        <li><strong>Налаживание творческих связей:</strong> открытая атмосфера взаимной поддержки и обмена находками.</li>
+                        <li><strong>Расширение диапазона общения:</strong> горизонтальное обучение «равный — равному».</li>
+                    </ul>
+                `,
+                photos: [
+                    'https://placehold.co/400x280/0f172a/38bdf8?text=Модераторы+секций+СШ+№7',
+                    'https://placehold.co/400x280/1e293b/38bdf8?text=Микрообучение+в+действии',
+                    'https://placehold.co/400x280/334155/38bdf8?text=Участники+челленджа'
+                ]
+            },
+            ai_workshop: {
+                badge: 'Цифровые тренды • ИИ',
+                title: '«Мастерская ИИ: идеи и алгоритмы. Создаём будущее в настоящем»',
+                subtitle: 'Районный практикум для учителей истории и филологов',
+                hasVideo: true,
+                videoLabel: 'Видеофрагмент «Мастерской ИИ» (создан с помощью нейросетей)',
+                body: `
+                    <p>Практико-ориентированное мероприятие, направленное на освоение технологий искусственного интеллекта в гуманитарном образовании.</p>
+                    <ul class="list-disc pl-5 space-y-1.5 text-slate-700">
+                        <li>Осуществлен запуск <strong>алмазного мышления</strong> для поиска нестандартных методических решений.</li>
+                        <li>Проведены мастер-класс и серия микрообучений по составлению промптов и генерации учебного контента.</li>
+                        <li><strong>100% практика:</strong> каждый участник самостоятельно поработал с нейросетями и создал собственный образовательный продукт.</li>
+                    </ul>
+                `,
+                photos: [
+                    'https://placehold.co/400x280/1e1b4b/a5b4fc?text=Работа+в+Мастерской+ИИ',
+                    'https://placehold.co/400x280/312e81/a5b4fc?text=Создание+ИИ-продуктов',
+                    'https://placehold.co/400x280/3730a3/a5b4fc?text=Презентация+результатов'
+                ]
+            },
+            hugs_years: {
+                badge: 'Память поколений • Нейросети',
+                title: 'Патриотическая акция «Объятия сквозь года»',
+                subtitle: 'Синтез исторической памяти и современных цифровых технологий',
+                hasVideo: true,
+                videoLabel: 'Нейросетевой видеоролик акции «Объятия сквозь года»',
+                body: `
+                    <p>Эмоциональный медиапроект, объединивший учащихся, учителей и методистов Жлобинского района.</p>
+                    <p>С помощью технологий искусственного интеллекта и анимации архивных фотографий участники создали трогательные видеосюжеты, в которых они обнимают своих прадедов, бабушек и дедушек — ветеранов Великой Отечественной войны.</p>
+                `,
+                photos: [
+                    'https://placehold.co/400x280/451a03/fcd34d?text=Кадр+из+видео+акции+1',
+                    'https://placehold.co/400x280/78350f/fcd34d?text=Архивные+фото+ветеранов',
+                    'https://placehold.co/400x280/92400e/fcd34d?text=Кадр+из+видео+акции+2'
+                ]
+            },
+            young_teachers: {
+                badge: 'Наставничество • Практикум',
+                title: 'Постоянно действующая «Школа молодого учителя истории»',
+                subtitle: 'Профессиональное становление молодых специалистов района',
+                hasVideo: false,
+                body: `
+                    <p>Системная площадка методической поддержки начинающих педагогов района. В ходе занятий молодые специалисты:</p>
+                    <ul class="list-disc pl-5 space-y-1.5 text-slate-700">
+                        <li>Научились конструировать и применять <strong>разноуровневые задания</strong> с использованием исторической карты.</li>
+                        <li>Изучили <strong>банк заданий</strong> с анализом результатов контрольно-оценочной деятельности учащихся.</li>
+                        <li>Освоили технологию <strong>гексагонального обучения</strong> для развития критического мышления школьников.</li>
+                        <li>Наладили творческий контакт и профессиональное общение с опытными наставниками.</li>
+                    </ul>
+                `,
+                photos: [
+                    'https://i.postimg.cc/JzhDMXFm/smu.jpg',
+                    'https://i.postimg.cc/y8rJdNMt/smu2.jpg',
+                    
+                ]
+            },
+            streshin: {
+                badge: 'Краеведение + ИИ • Выездная гостиная',
+                title: 'Педагогическая гостиная в Стрешинской средней школе',
+                subtitle: 'Комплексное погружение в методику, историю и духовное наследие',
+                hasVideo: true,
+                videoLabel: 'Видеообзор педагогической гостиной в Стрешине',
+                body: `
+                    <p>Выездной формат повышения квалификации, объединивший современные цифровые инструменты и богатый краеведческий потенциал Жлобинского района:</p>
+                    <ul class="list-disc pl-5 space-y-1.5 text-slate-700">
+                        <li>Практическая работа педагогов в <strong>мастерской ИИ</strong>.</li>
+                        <li>Посещение открытых уроков истории и географии, знакомство с экспозицией школьного музея <strong>«Спадчына»</strong>.</li>
+                        <li>Изучение <strong>Экологической тропы</strong> и погружение в атмосферу прошлого на древнем <strong>Стрешинском городище</strong>.</li>
+                        <li>Посещение <strong>храма Покрова Пресвятой Богородицы</strong>.</li>
+                    </ul>
+                `,
+                photos: [
+                    'https://i.postimg.cc/m2jzvj8F/pedagogiceskoj-gostinoj-Stresin3.jpg',
+                    'https://i.postimg.cc/RVd6kdXN/pedagogiceskoj-gostinoj-Stresin4.jpg',
+                    
+                ]
+            },
+            workshop_10min: {
+                badge: 'Челлендж → Областной семинар',
+                title: '«Мастерская за 10 минут: эффективные практики во внеурочной деятельности»',
+                subtitle: 'От районного челленджа в СШ №7 до панорамы опыта на областном уровне',
+                hasVideo: false,
+                body: `
+                    <p>Районный челлендж для учителей истории Жлобинского района на базе СШ №7 был посвящен эффективным формам внеурочной работы по предмету.</p>
+                    <p><strong>Выход на область:</strong> Победители челленджа «Мастерская за 10 минут» представили панораму продуктивного педагогического опыта на областном семинаре <em>«Индивидуальная траектория профессионального развития педагога в условиях непрерывного образования»</em>.</p>
+                `,
+                photos: [
+                    'https://placehold.co/400x280/0c4a6e/7dd3fc?text=Спикеры+Мастерской+за+10+минут',
+                    'https://placehold.co/400x280/075985/7dd3fc?text=Панорама+опыта+на+области',
+                    'https://placehold.co/400x280/0369a1/7dd3fc?text=Победители+челленджа'
+                ]
+            },
+            travel_4k: {
+                badge: '27 марта 2024 • Навыки XXI века',
+                title: 'Педагогическое путешествие «Шалость удалась: 4К»',
+                subtitle: 'Коммуникация, кооперация, креативность, критическое мышление',
+                hasVideo: false,
+                body: `
+                    <p>Участники Школы передового педагогического опыта провели интерактивный практикум для учителей истории, обществоведения и искусства (ОМХК) Жлобинского района:</p>
+                    <ul class="list-disc pl-5 space-y-1.5 text-slate-700">
+                        <li><strong>Коммуникативность:</strong> умение доступно, образно и убедительно излагать свои идеи.</li>
+                        <li><strong>Кооперация:</strong> командная работа предметников на единую образовательную цель.</li>
+                        <li><strong>Креативность:</strong> поиск нестандартных решений в знакомых педагогических ситуациях.</li>
+                        <li><strong>Критическое мышление:</strong> аргументация позиции и аналитический подход к информации.</li>
+                    </ul>
+                `,
+                photos: [
+                    'https://i.postimg.cc/LXBgHFzX/sal.jpg',
+                    'https://i.postimg.cc/XJcBV6wq/sal2.jpg',
+                    'https://i.postimg.cc/1tcV91p8/sal3.jpg'
+                ]
+            },
+            paporotnoe: {
+                badge: '16 ноября 2023 • Папоротнянская СШ',
+                title: 'Педагогическая гостиная в Папоротнянской средней школе',
+                subtitle: 'Воспитание и развитие личности средствами предметов «История Беларуси» и «География»',
+                hasVideo: false,
+                body: `
+                    <p>Межпредметная гостиная, раскрывшая воспитательный потенциал краеведения, экскурсий, походов и экологических маршрутов:</p>
+                    <ul class="list-disc pl-5 space-y-1.5 text-slate-700">
+                        <li>Творческое приветствие — віншавальная паштоўка <strong>«Сёння ў нашай хаце свята»</strong>.</li>
+                        <li><strong>Экологическое кафе и практикум</strong> по формированию гражданско-патриотического и нравственного воспитания.</li>
+                        <li>Презентация поваренной книги <strong>«По-папоротнянски»</strong> и краеведческая экскурсия <strong>«Грабские хутора»</strong>.</li>
+                    </ul>
+                `,
+                photos: [
+                    'https://placehold.co/400x280/1a2e05/bef264?text=Сёння+ў+нашай+хаце+свята',
+                    'https://placehold.co/400x280/365314/bef264?text=Экологическое+кафе',
+                    'https://placehold.co/400x280/3f6212/bef264?text=Экскурсия+Грабские+хутора'
+                ]
+            },
+            visual_literacy: {
+                badge: '29 октября 2024 • СШ №11 г. Жлобина',
+                title: 'Тренинг «Функциональная грамотность учащихся = визуальная грамотность?!»',
+                subtitle: 'Работа с наглядностью и историческими источниками',
+                hasVideo: false,
+                body: `
+                    <p>Практический тренинг для учителей истории Жлобинского района на базе СШ №11.</p>
+                    <p>Педагоги продуктивно обменялись методическими приемами развития функциональной грамотности школьников через декодирование визуальной информации: работу с исторической картой, карикатурой, плакатом, документальными источниками и дидактическими играми.</p>
+                `,
+                photos: [
+                    'https://placehold.co/400x280/083344/67e8f9?text=Работа+с+источниками+СШ+№11',
+                    'https://placehold.co/400x280/164e63/67e8f9?text=Визуальная+грамотность',
+                    'https://placehold.co/400x280/155e75/67e8f9?text=Игровые+технологии'
+                ]
+            },
+            krasny_bereg: {
+                badge: '27 августа 2026 • Областной уровень',
+                title: 'Встреча педагогических работников на Мемориальном комплексе «Красный Берег»',
+                subtitle: 'Организация и проведение Уроков мужества',
+                hasVideo: false,
+                body: `
+                    <p>Знаковая предсентябрьская встреча педагогических работников учреждений общего среднего и среднего специального образования Гомельской области на Мемориальном комплексе «Детям — жертвам войны» (Красный Берег).</p>
+                    <p>В центре внимания — методика подготовки и эмоционально-нравственного проведения Уроков мужества, сохранение исторической правды о геноциде белорусского народа в годы Великой Отечественной войны.</p>
+                `,
+                photos: [
+                    'https://placehold.co/400x280/1c1917/fca5a5?text=Мемориал+Красный+Берег',
+                    'https://placehold.co/400x280/292524/fca5a5?text=Педагоги+Гомельской+области',
+                    'https://placehold.co/400x280/44403c/fca5a5?text=Методика+Уроков+мужества'
+                ]
+            },
+            pecha_kucha: {
+                badge: 'Динамичный формат • Печа-куча',
+                title: 'Педагогическая встреча «Формирование функциональной грамотности на уроках "Чалавек і свет. Мая Радзіма – Беларусь"»',
+                subtitle: 'Взгляд учителя истории в формате «Печа-куча»',
+                hasVideo: false,
+                body: `
+                    <p>Формат «Печа-куча» (краткие, строго регламентированные по времени презентации) позволил учителям истории емко и образно представить преемственность пропедевтического курса «Мая Радзіма – Беларусь» и систематических курсов истории в 5–11 классах.</p>
+                `,
+                photos: [
+                    'https://placehold.co/400x280/431407/fdba74?text=Выступление+в+формате+Печа-куча',
+                    'https://placehold.co/400x280/7c2d12/fdba74?text=Мая+Радзіма+–+Беларусь',
+                    'https://placehold.co/400x280/9a3412/fdba74?text=Обсуждение+приемов'
+                ]
+            },
+            forums_omhk: {
+                badge: 'Международный и областной уровень',
+                title: 'Международный форум «Инновации в образовании» & Областной семинар по искусству (ОМХК)',
+                subtitle: 'Траектория международного сотрудничества и межпредметные связи',
+                hasVideo: false,
+                body: `
+                    <p>Участие в крупных диалоговых площадках обогатило копилку методиста современными технологиями:</p>
+                    <ul class="list-disc pl-5 space-y-1.5 text-slate-700">
+                        <li><strong>ИИ как культурное орудие педагога</strong> и разработка педагогических проектов с нейросетями.</li>
+                        <li>Применение <strong>интерактивного оборудования</strong> и приемы конструктивного взаимодействия с родителями.</li>
+                        <li><strong>Областной семинар по музыке, ИЗО и искусству (ОМХК):</strong> учебные и факультативные занятия, педагогические мастерские, презентационные площадки и погружение в ИИ.</li>
+                    </ul>
+                `,
+                photos: [
+                    'https://placehold.co/400x280/172554/93c5fd?text=Форум+Инновации+в+образовании',
+                    'https://placehold.co/400x280/1e3a8a/93c5fd?text=Интерактивные+площадки',
+                    'https://placehold.co/400x280/1d4ed8/93c5fd?text=Погружение+в+ИИ+на+ОМХК'
+                ]
+            },
+            method_council: {
+                badge: 'Областной методсовет • Кадры',
+                title: 'Региональная модель «Наставник + молодой специалист = команда»',
+                subtitle: 'Научно-методическое сопровождение молодых педагогов и профильных педклассов',
+                hasVideo: false,
+                body: `
+                    <p>На заседании областного методического совета заведующие УМК рассмотрели ключевые механизмы закрепления молодых кадров в профессии:</p>
+                    <ul class="list-disc pl-5 space-y-1.5 text-slate-700">
+                        <li>Выстраивание региональной модели мероприятий в формате <strong>«наставник + молодой специалист = команда»</strong>.</li>
+                        <li>Повышение качества функционирования <strong>профильных классов педагогической направленности</strong>.</li>
+                        <li>Создание <strong>«ситуации успеха»</strong> для психологической и профессиональной адаптации начинающих учителей.</li>
+                    </ul>
+                `,
+                photos: [
+                    'https://placehold.co/400x280/1e293b/cbd5e1?text=Областной+методический+совет',
+                    'https://placehold.co/400x280/334155/cbd5e1?text=Наставник+%2B+молодой+педагог',
+                    'https://placehold.co/400x280/475569/cbd5e1?text=Педагогические+классы'
+                ]
+            }
+        };
+
+        // Фильтрация карточек
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('#cards-grid article');
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Сброс активного стиля
+                filterButtons.forEach(b => {
+                    b.classList.remove('bg-brand-600', 'text-white', 'shadow-sm');
+                    b.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+                });
+                btn.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+                btn.classList.add('bg-brand-600', 'text-white', 'shadow-sm');
+
+                const filter = btn.getAttribute('data-filter');
+                cards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // Управление модальным окном
+        function openModal(id) {
+            const data = eventsData[id];
+            if (!data) return;
+
+            document.getElementById('modal-badge').textContent = data.badge;
+            document.getElementById('modal-title').textContent = data.title;
+            document.getElementById('modal-subtitle').textContent = data.subtitle;
+            document.getElementById('modal-body').innerHTML = data.body;
+
+            const videoBox = document.getElementById('modal-video-box');
+            if (data.hasVideo) {
+                videoBox.classList.remove('hidden');
+                document.getElementById('modal-video-label').textContent = data.videoLabel || 'Видеофрагмент мероприятия';
+            } else {
+                videoBox.classList.add('hidden');
+            }
+
+            const gallery = document.getElementById('modal-gallery');
+            gallery.innerHTML = data.photos.map(src => `
+                <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-100 aspect-[4/3]">
+                    <img src="${src}" alt="Фото мероприятия" class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                </div>
+            `).join('');
+
+            document.getElementById('modal-backdrop').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        function openImagePreview(title, imgUrl) {
+            document.getElementById('modal-badge').textContent = 'Банк признания и благодарностей';
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-subtitle').textContent = 'Жлобинский районный учебно-методический кабинет';
+            document.getElementById('modal-video-box').classList.add('hidden');
+            document.getElementById('modal-body').innerHTML = `
+                <div class="rounded-2xl overflow-hidden border border-slate-200">
+                    <img src="${imgUrl}" alt="${title}" class="w-full h-auto">
+                </div>
+            `;
+            document.getElementById('modal-gallery').innerHTML = '';
+            document.getElementById('modal-backdrop').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modal-backdrop').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function closeModalOnBackdrop(e) {
+            if (e.target.id === 'modal-backdrop') {
+                closeModal();
+            }
+        }
+
+        // Закрытие по Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // ИНТЕРАКТИВНЫЙ ВЫЗОВ «МЕТОДИСТ PRO» (5 ситуаций, 0–2 балла за ответ)
+        const proSituations = [
+            {
+                question: 'Учителя затрудняются разрабатывать разноуровневые задания с исторической картой. Какой шаг даст наиболее устойчивый результат?',
+                options: [
+                    {
+                        letter: 'A',
+                        text: 'Лекция о значении картографической грамотности.',
+                        points: 0,
+                        argument: 'Пассивное слушание теории не формирует навык конструирования заданий разного уровня сложности.'
+                    },
+                    {
+                        letter: 'B',
+                        text: 'Разослать готовый комплект без обсуждения.',
+                        points: 1,
+                        argument: 'Частичное решение (1 балл): готовые материалы помогут на один урок, но педагог не научится адаптировать их под свой класс.'
+                    },
+                    {
+                        letter: 'C',
+                        text: 'Практикум: разобрать образцы, совместно создать задания разных уровней и обсудить критерии.',
+                        points: 2,
+                        argument: 'Оптимально (2 балла): именно такой деятельностный формат применяется в «Школе молодого учителя истории» — через практику и критериальный анализ.'
+                    },
+                    {
+                        letter: 'D',
+                        text: 'Предложить самостоятельно найти задания в интернете.',
+                        points: 0,
+                        argument: 'Стихийный поиск в сети не гарантирует соответствия учебной программе и требованиям контрольно-оценочной деятельности.'
+                    }
+                ]
+            },
+            {
+                question: 'Молодой специалист по истории испытывает тревожность перед первыми уроками и не знает, как удержать внимание класса. Как выстроить сопровождение?',
+                options: [
+                    {
+                        letter: 'A',
+                        text: 'Поставить в жесткий график административного контроля с еженедельным разбором ошибок.',
+                        points: 0,
+                        argument: 'Усиление контроля на старте усиливает стресс и повышает риск профессионального выгорания.'
+                    },
+                    {
+                        letter: 'B',
+                        text: 'Включить в пару «наставник + молодой специалист = команда», разобрать 2–3 рабочих приема (например, гексагоны) и создать «ситуацию успеха».',
+                        points: 2,
+                        argument: 'Оптимально (2 балла): региональная модель наставничества Жлобинского РУМК строится на поддержке, микроинструментах и закреплении через успех.'
+                    },
+                    {
+                        letter: 'C',
+                        text: 'Порекомендовать перечитать методические пособия за курс университета.',
+                        points: 0,
+                        argument: 'Академическая теория не закрывает сиюминутные методические дефициты молодого педагога.'
+                    },
+                    {
+                        letter: 'D',
+                        text: 'Пригласить на областной семинар в качестве пассивного слушателя в конце года.',
+                        points: 1,
+                        argument: 'Частичное решение (1 балл): насмотренность полезна, но помощь нужна здесь и сейчас в формате живого наставничества.'
+                    }
+                ]
+            },
+            {
+                question: 'Учителя опасаются использовать нейросети на уроках истории, считая, что ИИ только порождает фактические ошибки. Какой формат снимет барьер?',
+                options: [
+                    {
+                        letter: 'A',
+                        text: 'Запретить использование любых нейросетей при подготовке к учебным занятиям.',
+                        points: 0,
+                        argument: 'Запрет лишает педагога современного культурного орудия и не учит школьников критической проверке информации.'
+                    },
+                    {
+                        letter: 'B',
+                        text: 'Провести «Мастерскую ИИ»: запустить алмазное мышление, научить фактчекингу и дать каждому создать свой продукт за 15 минут.',
+                        points: 2,
+                        argument: 'Оптимально (2 балла): опыт «Мастерской ИИ» доказал, что личная практика создания продукта + критическое мышление превращают ИИ в надежного помощника.'
+                    },
+                    {
+                        letter: 'C',
+                        text: 'Подготовить памятку со списком из 30 ссылок на зарубежные нейросети.',
+                        points: 1,
+                        argument: 'Частичное решение (1 балл): без живого алгоритма и пробы пера список ссылок останется невостребованным.'
+                    },
+                    {
+                        letter: 'D',
+                        text: 'Провести теоретический доклад об истории развития искусственного интеллекта.',
+                        points: 0,
+                        argument: 'Исторический экскурс не отвечает на главный вопрос учителя: «Как применить это завтра на уроке?».'
+                    }
+                ]
+            },
+            {
+                question: 'Нужно быстро распространить лучшие внеурочные практики учителей истории района, но педагоги перегружены длинными заседаниями. Что выбрать?',
+                options: [
+                    {
+                        letter: 'A',
+                        text: 'Провести трехчасовое совещание с зачитыванием отчетов по каждой школе.',
+                        points: 0,
+                        argument: 'Длинные монологические отчеты снижают вовлеченность и не мотивируют перенимать опыт.'
+                    },
+                    {
+                        letter: 'B',
+                        text: 'Собрать текстовые разработки в общую папку на диске и закрыть тему.',
+                        points: 1,
+                        argument: 'Частичное решение (1 балл): банк материалов полезен, но без живой демонстрации и эмоций идеи внедряются слабо.'
+                    },
+                    {
+                        letter: 'C',
+                        text: 'Запустить районный челлендж «Мастерская за 10 минут» в формате микрообучения с модераторами секций.',
+                        points: 2,
+                        argument: 'Оптимально (2 балла): жесткий тайминг (10 минут), драйв челленджа и фокусировка на одном приеме дают максимальный КПД и выход на область.'
+                    },
+                    {
+                        letter: 'D',
+                        text: 'Обязать каждого учителя написать статью в сборник к концу полугодия.',
+                        points: 0,
+                        argument: 'Формальная обязанность без обмена живым опытом превращается в бюрократическую нагрузку.'
+                    }
+                ]
+            },
+            {
+                question: 'Как сделать так, чтобы краеведческий материал на уроках истории и во внеурочной работе вызывал у педагогов и учащихся искренний отклик?',
+                options: [
+                    {
+                        letter: 'A',
+                        text: 'Ограничиться пересказом параграфа учебника о событиях в регионе.',
+                        points: 0,
+                        argument: 'Сухой пересказ не формирует эмоционально-ценностного отношения к малой родине.'
+                    },
+                    {
+                        letter: 'B',
+                        text: 'Вывести педагогов в выездную гостиную (Стрешин, Папоротное, Красный Берег): соединить музей, маршрут, цифру и проживание истории.',
+                        points: 2,
+                        argument: 'Оптимально (2 балла): выездные гостиные Жлобинского РУМК показали, что личное проживание маршрута рождает самые сильные Уроки мужества.'
+                    },
+                    {
+                        letter: 'C',
+                        text: 'Выдать список памятников района для самостоятельного изучения.',
+                        points: 1,
+                        argument: 'Частичное решение (1 балл): справочная информация нужна, но методисту важно показать сценарий ее включения в урок.'
+                    },
+                    {
+                        letter: 'D',
+                        text: 'Перенести всю краеведческую работу исключительно на летние каникулы.',
+                        points: 0,
+                        argument: 'Краеведение должно быть органичной частью учебного процесса в течение всего года.'
+                    }
+                ]
+            }
+        ];
+
+        let proCurrentIdx = 0;
+        let proScore = 0;
+        let proAnswered = false;
+
+        function renderProQuestion() {
+            const q = proSituations[proCurrentIdx];
+            proAnswered = false;
+
+            // Обновление прогресса и заголовков
+            const progressPercent = ((proCurrentIdx + 1) / proSituations.length) * 100;
+            document.getElementById('pro-progress-bar').style.width = `${progressPercent}%`;
+            document.getElementById('pro-step-label').textContent = `СИТУАЦИЯ ${proCurrentIdx + 1} ИЗ ${proSituations.length}`;
+            document.getElementById('pro-question-text').textContent = q.question;
+            document.getElementById('pro-score-display').textContent = proScore;
+
+            // Скрываем блок аргументации и блокируем кнопку «Далее»
+            document.getElementById('pro-feedback-box').classList.add('hidden');
+            const nextBtn = document.getElementById('pro-next-btn');
+            nextBtn.disabled = true;
+            nextBtn.innerHTML = proCurrentIdx === proSituations.length - 1
+                ? '<span>Завершить</span> <span>&rarr;</span>'
+                : '<span>Далее</span> <span>&rarr;</span>';
+
+            // Отрисовка вариантов A, B, C, D
+            const list = document.getElementById('pro-options-list');
+            list.innerHTML = q.options.map((opt, idx) => `
+                <button type="button" onclick="selectProOption(${idx})" id="pro-opt-${idx}"
+                        class="w-full text-left px-4 py-3.5 rounded-xl border border-slate-600/80 bg-[#13324a]/70 hover:bg-[#193f5c] hover:border-teal-400/70 text-slate-100 text-sm sm:text-base transition flex items-start gap-3">
+                    <span class="font-bold text-slate-300 shrink-0">${opt.letter}.</span>
+                    <span>${opt.text}</span>
+                </button>
+            `).join('');
+        }
+
+        function selectProOption(selectedIdx) {
+            if (proAnswered) return;
+            proAnswered = true;
+
+            const q = proSituations[proCurrentIdx];
+            const chosen = q.options[selectedIdx];
+            proScore += chosen.points;
+            document.getElementById('pro-score-display').textContent = proScore;
+
+            // Подсветка выбранного и лучшего вариантов
+            q.options.forEach((opt, idx) => {
+                const btn = document.getElementById(`pro-opt-${idx}`);
+                btn.disabled = true;
+                btn.classList.remove('hover:bg-[#193f5c]', 'hover:border-teal-400/70');
+
+                if (idx === selectedIdx) {
+                    if (opt.points === 2) {
+                        btn.classList.remove('border-slate-600/80', 'bg-[#13324a]/70');
+                        btn.classList.add('border-emerald-400', 'bg-emerald-950/60', 'text-white');
+                    } else if (opt.points === 1) {
+                        btn.classList.remove('border-slate-600/80', 'bg-[#13324a]/70');
+                        btn.classList.add('border-amber-400', 'bg-amber-950/50', 'text-white');
+                    } else {
+                        btn.classList.remove('border-slate-600/80', 'bg-[#13324a]/70');
+                        btn.classList.add('border-rose-400', 'bg-rose-950/50', 'text-white');
+                    }
+                } else if (opt.points === 2) {
+                    // Показываем эталонный вариант на 2 балла, если выбран другой
+                    btn.classList.remove('border-slate-600/80');
+                    btn.classList.add('border-emerald-500/60', 'bg-emerald-950/30');
+                } else {
+                    btn.classList.add('opacity-55');
+                }
+            });
+
+            // Показываем методическую аргументацию в левой панели
+            const badge = document.getElementById('pro-points-badge');
+            badge.textContent = `+${chosen.points} ${chosen.points === 1 ? 'балл' : (chosen.points === 2 ? 'балла' : 'баллов')}`;
+            badge.className = chosen.points === 2
+                ? 'text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300'
+                : (chosen.points === 1
+                    ? 'text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-amber-500/20 text-amber-300'
+                    : 'text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-rose-500/20 text-rose-300');
+
+            document.getElementById('pro-argument-text').textContent = chosen.argument;
+            document.getElementById('pro-feedback-box').classList.remove('hidden');
+            document.getElementById('pro-next-btn').disabled = false;
+        }
+
+        function nextProQuestion() {
+            if (proCurrentIdx < proSituations.length - 1) {
+                proCurrentIdx++;
+                renderProQuestion();
+            } else {
+                showProResults();
+            }
+        }
+
+        function showProResults() {
+            document.getElementById('pro-quiz-screen').classList.add('hidden');
+            document.getElementById('pro-feedback-box').classList.add('hidden');
+            document.getElementById('pro-result-screen').classList.remove('hidden');
+            document.getElementById('pro-final-score').textContent = proScore;
+
+            let verdict = '';
+            if (proScore >= 9) {
+                verdict = 'Блестяще! Вы мыслите как современный методист-наставник: делаете ставку на практику, микрообучение, ИИ-инструменты и живое краеведение.';
+            } else if (proScore >= 6) {
+                verdict = 'Отличный результат! Вы уверенно выбираете деятельностные форматы работы с педагогами и видите точки роста.';
+            } else {
+                verdict = 'Хороший старт! Загляните в карточки первого блока плаката — там собраны проверенные алгоритмы Жлобинского РУМК.';
+            }
+            document.getElementById('pro-final-verdict').textContent = verdict;
+            lucide.createIcons();
+        }
+
+        function restartProQuiz() {
+            proCurrentIdx = 0;
+            proScore = 0;
+            document.getElementById('pro-result-screen').classList.add('hidden');
+            document.getElementById('pro-quiz-screen').classList.remove('hidden');
+            renderProQuestion();
+        }
+
+        // Запуск первой ситуации при загрузке
+        renderProQuestion();
+
+        // Форма обратной связи
+        function submitFeedback(e) {
+            e.preventDefault();
+            const name = document.getElementById('fb-name').value.trim();
+            const topic = document.getElementById('fb-topic').value;
+            const message = document.getElementById('fb-message').value.trim();
+
+            if (!name || !message) return;
+
+            const list = document.getElementById('feedback-list');
+            const newItem = document.createElement('div');
+            newItem.className = 'p-3 rounded-xl bg-brand-50/60 text-xs border border-brand-200';
+            newItem.innerHTML = `
+                <div class="flex justify-between font-semibold text-slate-800 mb-0.5">
+                    <span>${escapeHtml(name)}</span>
+                    <span class="text-brand-700">${escapeHtml(topic)}</span>
+                </div>
+                <p class="text-slate-700">${escapeHtml(message)}</p>
+            `;
+            list.prepend(newItem);
+
+            document.getElementById('feedback-form').reset();
+            showToast('Спасибо! Ваше сообщение опубликовано в ленте откликов.');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-text').textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
